@@ -1,0 +1,61 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+def keystorePropertiesFile = rootProject.file("bintray.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+
+group 'com.kiyosuke'
+archivesBaseName = 'androidgeojson'
+version "${versionMajor}.${versionMinor}.${versionPatch}"
+
+def libraryId = 'androidgeojson'
+def siteUrl = 'https://github.com/kiyosuke111/AndroidGeoJson'
+def githubUrl = 'https://github.com/kiyosuke111/AndroidGeoJson'
+
+bintray {
+    user = keystoreProperties['bintray_user']
+    key = keystoreProperties['bintray_key']
+    configurations = ['archives']
+
+    pkg {
+        repo = 'maven'
+        name = project.group + '.' + libraryId
+        licenses = ['Apache-2.0']
+        websiteUrl = siteUrl
+        vcsUrl = githubUrl + '.git'
+        issueTrackerUrl = githubUrl + '/issues'
+        version {
+            name = project.version
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name libraryId
+            url siteUrl
+
+            packaging 'aar'
+            groupId project.group
+            artifactId libraryId
+            version project.version
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            scm {
+                connection githubUrl + '.git'
+                url githubUrl
+            }
+        }
+    }
+}
