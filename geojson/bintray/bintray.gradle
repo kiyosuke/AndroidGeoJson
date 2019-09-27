@@ -19,8 +19,8 @@ archivesBaseName = 'androidgeojson'
 version "${versionMajor}.${versionMinor}.${versionPatch}"
 
 def libraryId = 'androidgeojson'
-def siteUrl = 'https://github.com/kiyosuke111/AndroidGeoJson'
-def githubUrl = 'https://github.com/kiyosuke111/AndroidGeoJson'
+def siteUrl = 'https://github.com/kiyosuke/AndroidGeoJson'
+def githubUrl = 'https://github.com/kiyosuke/AndroidGeoJson'
 
 bintray {
     user = keystoreProperties['bintray_user']
