@@ -2,23 +2,23 @@ package com.kiyosuke111.geojson
 
 import org.json.JSONArray
 
-data class GeoPosition(
+class GeoPosition(
     val latitude: Double,
     val longitude: Double,
-    val altitude: Double = 0.0
+    val altitude: Double? = null
 ) {
 
     constructor(jsonArray: JSONArray) : this(
         jsonArray.getDouble(INDEXES.LATITUDE),
         jsonArray.getDouble(INDEXES.LONGITUDE),
-        jsonArray.optDouble(INDEXES.ALTITUDE).ifNaN { 0.0 }
+        jsonArray.optDouble(INDEXES.ALTITUDE).ifNaN { null }
     )
 
     fun toJsonArray(): JSONArray {
         return JSONArray().apply {
             put(INDEXES.LATITUDE, latitude)
             put(INDEXES.LONGITUDE, longitude)
-            put(INDEXES.ALTITUDE, altitude)
+            altitude?.let { altitude -> put(INDEXES.ALTITUDE, altitude) }
         }
     }
 
@@ -53,6 +53,6 @@ data class GeoPosition(
     }
 }
 
-private inline fun Double.ifNaN(defaultValue: () -> Double): Double {
+private inline fun Double.ifNaN(defaultValue: () -> Double?): Double? {
     return if (this.isNaN()) defaultValue() else this
 }
