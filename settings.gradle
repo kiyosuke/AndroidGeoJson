@@ -1,1 +1,1 @@
-include ':geojson'
+include ':geojson', ':moshi'
